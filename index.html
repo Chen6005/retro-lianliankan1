@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>復古3D浮雕連連看</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>復古3D浮雕連線消除連連看</h1>
+  <div class="level-panel">
+    關卡 <span id="level">1</span>
+    ｜時間 <span id="time">120</span> s
+    ｜步數 <span id="moves">40</span>
+    ｜重排 <span id="reshuffle-count">3</span>
+    <button id="pause" class="round-btn" title="暫停遊戲" disabled>⏸</button>
+  </div>
+  <div class="accordion">
+    <button class="accordion-btn" onclick="toggleAccordion()">📜 遊戲規則</button>
+    <div class="accordion-panel" id="rule-panel">
+      <ul>
+        <li><strong>目標：</strong>配對所有相同圖案，把它們從棋盤上消除，直到全部消除即獲勝！</li>
+        <li><strong>操作：</strong>點擊一個圖案，再點另一個相同圖案，若能用一條直線或一個彎折相連，中間沒其他圖案，這兩個圖案就會消除。</li>
+        <li><strong>限時/步數：</strong>每關2分鐘與有限步數，倒數歸零或步數用完即失敗。</li>
+        <li><strong>重排：</strong>每關可用有限次重排，當棋盤上無可消除組合時將自動重排。</li>
+        <li><strong>加時：</strong>每消除一對，剩餘時間自動+5秒（不超過本關上限）。</li>
+        <li><strong>暫停：</strong>按 ⏸ 可暫停遊戲，暫停時棋盤與時間會停止。</li>
+        <li><strong>無限闖關：</strong>每過一關難度遞增，看看你能挑戰到第幾關！</li>
+      </ul>
+    </div>
+  </div>
+  <div id="game-board"></div>
+  <div id="message"></div>
+  <div class="button-row">
+    <button id="reshuffle">重排牌陣</button>
+    <button id="restart">重新開始</button>
+  </div>
+
+  <!-- 遊戲開始彈窗 -->
+  <div class="game-overlay" id="startOverlay">
+    <div class="fail-popup">
+      <div class="fail-msg" style="color:#ffc93a;">準備好了嗎？</div>
+      <div class="fail-submsg">點選下方按鈕開始遊戲</div>
+      <button class="tryagain-btn" onclick="startGame()">開始遊戲</button>
+    </div>
+  </div>
+
+  <!-- 遊戲暫停彈窗 -->
+  <div class="game-overlay" id="pauseOverlay" style="display: none;">
+    <div class="fail-popup">
+      <div class="fail-msg" style="color:#ffc93a;">已暫停</div>
+      <div class="fail-submsg">請點選下方按鈕繼續遊戲</div>
+      <button class="tryagain-btn" onclick="resumeGame()">繼續遊戲</button>
+    </div>
+  </div>
+
+  <!-- 遊戲失敗彈窗 -->
+  <div class="game-overlay" id="failOverlay" style="display: none;">
+    <div class="fail-popup">
+      <div class="fail-msg" id="failMsg">時間到！</div>
+      <div class="fail-submsg">再來一次挑戰吧！你也可以使用下方按鈕重排或重新開始。</div>
+      <button class="tryagain-btn" onclick="onTryAgain()">再試一次</button>
+    </div>
+  </div>
+
+  <!-- 過關彈窗 -->
+  <div class="game-overlay" id="successOverlay" style="display: none;">
+    <div class="fail-popup">
+      <div class="fail-msg" style="color:#ffc93a;">🎉 全部消除！恭喜過關！</div>
+      <div class="fail-submsg">點選下方按鈕進入下一關！</div>
+      <button class="tryagain-btn" onclick="nextLevel()">下一關</button>
+    </div>
+  </div>
+
+  <!-- 自動重排提示（預設隱藏） -->
+  <div class="auto-reshuffle-tip" id="reshuffleTip" style="display:none;">
+    棋盤無解，自動重排！
+  </div>
+
+  <footer>© 茹願</footer>
+  <script src="main.js"></script>
+</body>
+</html>

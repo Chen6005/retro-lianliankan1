@@ -1,0 +1,339 @@
+body {
+  background: radial-gradient(ellipse at top, #272829 0%, #141414 100%);
+  font-family: 'VT323', 'Noto Sans TC', monospace;
+  color: #ffecb3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+h1 {
+  margin: 18px 0 10px 0;
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  color: #ffc93a;
+  text-shadow: 2px 4px 12px #603000, 0 2px 2px #fff4b055;
+}
+.level-panel {
+  font-size: 1.14rem;
+  color: #ffe66a;
+  background: #2b2c1cde;
+  border: 2px solid #ffc93a;
+  border-radius: 14px;
+  padding: 9px 20px 7px 20px;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+  text-align: center;
+  box-shadow: 0 2px 14px #fff6cc11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.round-btn {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(120deg, #ffd369 80%, #ffe89e 100%);
+  color: #ad6c00;
+  border: 2.5px solid #ffc93a;
+  border-radius: 50%;
+  font-size: 1.55rem;
+  font-weight: bold;
+  box-shadow: 0 2px 10px #ffd36960, 0 0px 3px #fff3 inset;
+  cursor: pointer;
+  margin-left: 12px;
+  margin-right: -4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, box-shadow 0.16s, transform 0.09s;
+}
+.round-btn:hover:enabled {
+  background: #ffe28a;
+  color: #ab6100;
+  box-shadow: 0 4px 16px #ffeabb70, 0 2px 10px #fff8;
+  transform: scale(1.08);
+}
+.round-btn:active:enabled {
+  background: #ffd369;
+  color: #986000;
+  box-shadow: 0 1px 3px #ffd36960;
+  transform: scale(0.97);
+}
+.round-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+#game-board {
+  background: linear-gradient(150deg, #222 60%, #332c17 100%);
+  border: 4px solid #ffc93a;
+  box-shadow: 0 0 48px #000c, 0 0 0 12px #1b1b1b;
+  padding: 30px 24px 30px 24px;
+  border-radius: 36px;
+  margin: 18px 0 20px 0;
+  display: grid;
+  grid-template-columns: repeat(6, 60px);
+  grid-template-rows: repeat(6, 60px);
+  gap: 16px;
+  position: relative;
+}
+.tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  font-size: 2.3rem;
+  border: none;
+  border-radius: 22px;
+  margin: 0;
+  background: linear-gradient(145deg, #ffe28a 30%, #ffd76e 80%, #fff4cc 100%);
+  box-shadow:
+    0 7px 22px 0 #9b7d1aab,
+    0 2px 3px #fff7a1 inset,
+    0 -3px 12px #fff5da60 inset;
+  filter: drop-shadow(0 3px 1px #caa52a30);
+  transition:
+    transform 0.28s cubic-bezier(.36,1.6,.7,1.1),
+    box-shadow 0.20s,
+    filter 0.20s,
+    opacity 0.45s cubic-bezier(.34,1.38,.65,1.04);
+  opacity: 0;
+  transform: scale(0.6) translateY(25px);
+  cursor: pointer;
+  user-select: none;
+}
+.tile.visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+.tile.selected {
+  filter: brightness(1.25) drop-shadow(0 0 20px #fffbd8);
+  background: linear-gradient(145deg, #fff5ca 15%, #ffd369 90%);
+  box-shadow: 0 10px 36px #ffe064d0, 0 1px 9px #fffad4 inset;
+  transform: scale(1.1) translateY(-6px) rotate(-2deg);
+  z-index: 3;
+}
+.tile.removed {
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: none;
+}
+#message {
+  margin: 12px 0 16px 0;
+  font-size: 1.25rem;
+  height: 1.5em;
+  color: #ffe066;
+  text-shadow: 1px 1px #4f3b00, 0 1px 2px #fff8;
+}
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+.button-row button {
+  margin: 0;
+}
+button:disabled, button[disabled] {
+  background: #66655d !important;
+  color: #bbb383 !important;
+  border-color: #aeae9c !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  opacity: 0.6;
+}
+button {
+  background: linear-gradient(150deg, #2b2c1c 70%, #644c13 100%);
+  color: #ffd700;
+  border: 2px solid #ffd369;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 1.1rem;
+  padding: 13px 34px;
+  cursor: pointer;
+  transition: background 0.18s, border 0.18s, color 0.18s;
+  box-shadow: 0 2px 10px #0a0903d0;
+}
+button:hover:enabled {
+  background: #ffd369;
+  color: #332c17;
+  border-color: #e3b74b;
+}
+footer {
+  margin-top: auto;
+  color: #bb9457;
+  font-size: 1.05rem;
+  padding: 24px 0 8px 0;
+}
+
+/* 彈窗遮罩樣式（開始、暫停、失敗皆適用） */
+.game-overlay {
+  position: fixed;
+  left: 0; top: 0; width: 100vw; height: 100vh;
+  background: rgba(30,30,30, 0.67);
+  z-index: 1001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadein 0.25s;
+}
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+
+.fail-popup {
+  background: linear-gradient(145deg, #fffbe6 90%, #ffe3e3 100%);
+  border-radius: 22px;
+  box-shadow: 0 8px 40px #222a;
+  padding: 38px 40px 28px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 270px;
+  animation: popup-bounce 0.38s;
+}
+@keyframes popup-bounce {
+  0% { transform: scale(0.62) translateY(-40px);}
+  60% { transform: scale(1.08) translateY(8px);}
+  100% { transform: scale(1) translateY(0);}
+}
+.fail-msg {
+  color: #ff4747;
+  font-size: 1.63rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-align: center;
+  text-shadow: 0 2px 10px #ffe9, 1px 2px 5px #9334;
+  letter-spacing: 2px;
+  animation: shake 0.28s;
+}
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-5px);}
+  40% { transform: translateX(7px);}
+  60% { transform: translateX(-5px);}
+  80% { transform: translateX(3px);}
+  100% { transform: translateX(0);}
+}
+.fail-submsg {
+  color: #ad6c00;
+  font-size: 1.05rem;
+  margin-bottom: 16px;
+  text-align: center;
+  line-height: 1.6;
+}
+.tryagain-btn {
+  margin-top: 2px;
+  background: linear-gradient(90deg, #ffd369 60%, #ffe89e 100%);
+  color: #ad6c00;
+  border: 2.5px solid #ffc93a;
+  border-radius: 22px;
+  font-family: inherit;
+  font-size: 1.21rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 18px 54px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px #ffe9b360, 0 2px 8px #c3981c48;
+  transition: background 0.20s, color 0.15s, box-shadow 0.20s, transform 0.09s;
+}
+.tryagain-btn:hover {
+  background: #ffe28a;
+  color: #ab6100;
+  box-shadow: 0 8px 32px #ffeabbad, 0 4px 20px #fff8;
+  transform: scale(1.04);
+}
+.tryagain-btn:active {
+  background: #ffd369;
+  color: #986000;
+  box-shadow: 0 2px 6px #ffd36990;
+  transform: scale(0.97);
+}
+
+/* 自動重排提示樣式 */
+.auto-reshuffle-tip {
+  display: block;
+  position: fixed;
+  left: 50%;
+  top: 10%;
+  transform: translate(-50%, 0);
+  background: #ffd369;
+  color: #b85d00;
+  padding: 16px 30px;
+  font-size: 1.16rem;
+  border-radius: 18px;
+  font-weight: bold;
+  box-shadow: 0 3px 18px #ffd36955;
+  z-index: 2002;
+  opacity: 0.95;
+  animation: fadeoutTip 1.5s forwards;
+  pointer-events: none;
+}
+@keyframes fadeoutTip {
+  0% { opacity: 1; }
+  85% { opacity: 0.92;}
+  100% { opacity: 0;}
+}
+
+/* Accordion (遊戲規則說明) 樣式 */
+.accordion {
+  width: 100%;
+  max-width: 420px;
+  margin: 8px auto 2px auto;
+}
+.accordion-btn {
+  width: 100%;
+  text-align: left;
+  background: linear-gradient(90deg,#ffe081 70%,#ffd369 100%);
+  color: #664100;
+  border: 2px solid #ffc93a;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 1.07rem;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 0;
+  box-shadow: 0 1px 5px #ffefa93a;
+  transition: background 0.15s;
+}
+.accordion-btn:active,
+.accordion-btn.open {
+  background: linear-gradient(90deg,#ffe699 70%,#ffefc4 100%);
+}
+.accordion-panel {
+  display: none;
+  background: #fffbe6;
+  color: #705300;
+  padding: 14px 20px 13px 18px;
+  border-radius: 0 0 12px 12px;
+  border: 2px solid #ffc93a;
+  border-top: none;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  line-height: 1.7;
+  box-shadow: 0 3px 18px #eee2b899;
+}
+.accordion-panel.open {
+  display: block;
+}
+
+@media (max-width: 900px) {
+  #game-board {
+    grid-template-columns: repeat(6, 10vw);
+    grid-template-rows: repeat(6, 10vw);
+    max-width: 99vw;
+    padding: 4vw;
+    gap: 2.2vw;
+  }
+  .tile {
+    width: 10vw;
+    height: 10vw;
+    font-size: 5.2vw;
+  }
+  h1 { font-size: 1.23rem; }
+  button { font-size: 1.0rem; padding: 8px 11vw;}
+  .level-panel { font-size: 0.99rem; padding: 6px 6vw 5px 6vw;}
+  .accordion { max-width: 98vw; }
+}
